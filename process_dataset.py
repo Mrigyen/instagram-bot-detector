@@ -53,6 +53,11 @@ for i in range(len(df["Username"])):
 # Replace infs with NaN
 df = df.replace([np.inf, -np.inf], np.nan)
 # Using imputation on ratio based columns
+print(df["alpha_numeric_ratio"].mean()) # 0.9011392054358974
+print(df["following_followers_ratio"].mean()) # 6.4194135501560865
+print(df["followers_posts_ratio"].mean()) # 37.011870851559024
+print(df["following_posts_ratio"].mean()) # 127.02637909977729
+df["alpha_numeric_ratio"].fillna(df["alpha_numeric_ratio"].mean(), inplace=True)
 df["following_followers_ratio"].fillna(df["following_followers_ratio"].mean(), inplace=True)
 df["followers_posts_ratio"].fillna(df["followers_posts_ratio"].mean(), inplace=True)
 df["following_posts_ratio"].fillna(df["following_posts_ratio"].mean(), inplace=True)
