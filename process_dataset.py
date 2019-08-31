@@ -46,4 +46,15 @@ df.append(pd.DataFrame(columns=["followers_posts_ratio"], dtype=float))
 for i in range(len(df["Username"])):
     df["followers_posts_ratio"][i] = round(df["Number.of.followers"][i] / df["Number.of.posts"][i], 7)
 
-df.to_csv("training/output.csv")
+# Convert rating boolean values to int
+# df["rating"] = df["rating"].astype(int)
+
+# Imputation: replace infinite values with imputed values
+# Replace infs with NaN
+df = df.replace([np.inf, -np.inf], np.nan)
+# Using imputation on ratio based columns
+df["following_followers_ratio"].fillna(df["following_followers_ratio"].mean(), inplace=True)
+df["followers_posts_ratio"].fillna(df["followers_posts_ratio"].mean(), inplace=True)
+df["following_posts_ratio"].fillna(df["following_posts_ratio"].mean(), inplace=True)
+
+df.to_csv("training/output.csv", index=False)
