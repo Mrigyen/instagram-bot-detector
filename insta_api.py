@@ -103,8 +103,6 @@ def features(username):
         except ZeroDivisionError:
             features["followers_posts_ratio"] = 37.011870851559024
 
-        print("Feature creation complete!")
-
         return features
     else:
         return None
