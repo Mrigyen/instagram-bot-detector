@@ -2,16 +2,19 @@ from InstagramAPI import InstagramAPI
 import loginkey
 import requests
 import re
-import sys, os
+import sys
+import os
 
 
 # Disable
 def blockPrint():
     sys.stdout = open(os.devnull, 'w')
 
+
 # Restore
 def enablePrint():
     sys.stdout = sys.__stdout__
+
 
 print("Attempting to log into Instagram API")
 blockPrint()
@@ -22,6 +25,7 @@ if api.login():
 else:
     enablePrint()
     print("Login Failure")
+
 
 def get_user_id(username):
     r = requests.get("https://www.instagram.com/" + username + "/?__a=1")
@@ -34,25 +38,31 @@ def get_user_id(username):
         print("failed to find user")
         return None
 
+
 def get_number_of_posts(user_id):
     api.getUsernameInfo(user_id)
     return api.LastJson["user"]["media_count"]
+
 
 def get_number_of_people_they_follow(user_id):
     api.getUsernameInfo(user_id)
     return api.LastJson["user"]["following_count"]
 
+
 def get_number_of_followers(user_id):
     api.getUsernameInfo(user_id)
     return api.LastJson["user"]["follower_count"]
+
 
 def get_has_profile_picture(user_id):
     api.getUsernameInfo(user_id)
     return not api.LastJson["user"]["has_anonymous_profile_picture"]
 
+
 def get_has_private_account(user_id):
     api.getUsernameInfo(user_id)
     return api.LastJson["user"]["is_private"]
+
 
 def features(username):
     features = {}
@@ -87,13 +97,15 @@ def features(username):
 
         # Add following to followers ratio
         try:
-            features["following_followers_ratio"] = round(features["Number.of.people.they.follow"]/ features["Number.of.followers"], 7)
+            features["following_followers_ratio"] = round(
+                    features["Number.of.people.they.follow"] / features["Number.of.followers"], 7)
         except ZeroDivisionError:
             features["following_followers_ratio"] = 6.4194135501560865
 
         # add following_posts_ratio
         try:
-            features["following_posts_ratio"] = round(features["Number.of.people.they.follow"] / features["Number.of.posts"], 7)
+            features["following_posts_ratio"] = round(
+                    features["Number.of.people.they.follow"] / features["Number.of.posts"], 7)
         except ZeroDivisionError:
             features["following_posts_ratio"] = 127.02637909977729
 

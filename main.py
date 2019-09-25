@@ -14,4 +14,3 @@ while(True):
         features = insta_api.features(username)
         if features:
             print(train_model.predict(features))
-
